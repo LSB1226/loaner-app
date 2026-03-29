@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>대차현황</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { font-family: sans-serif; background:#f5f5f5; padding:20px;}
+    .card { background:white; padding:15px; border-radius:12px; margin-bottom:10px;}
+    button { padding:5px 10px; margin-top:5px;}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+function App() {
+  const [cars, setCars] = React.useState([
+    {id:1, model:'K5', number:'123하4567', status:'공장대기'},
+    {id:2, model:'쏘나타', number:'234호5678', status:'대차출고'}
+  ]);
+
+  const changeStatus = (id, status) => {
+    setCars(cars.map(c => c.id===id ? {...c, status} : c));
+  };
+
+  return (
+    <div>
+      <h1>대차현황</h1>
+      {cars.map(car => (
+        <div className="card" key={car.id}>
+          <b>{car.model}</b> ({car.number})<br/>
+          상태: {car.status}<br/>
+          <button onClick={()=>changeStatus(car.id,'공장대기')}>공장대기</button>
+          <button onClick={()=>changeStatus(car.id,'대차출고')}>출고</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
